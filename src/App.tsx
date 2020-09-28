@@ -25,7 +25,6 @@ const todos: Todo[] = [
 ]
 
 function App() {
-  const [isSelected, setIsSelected] = useState(false);
   const [backdropOpen, setBackdropOpen] = useState(true);
 
   return (
