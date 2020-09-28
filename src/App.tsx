@@ -1,44 +1,41 @@
 import React, { useState } from 'react';
-import { Backdrop, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
+import { Backdrop, Zoom } from '@material-ui/core';
 import { CheckCircle } from '@material-ui/icons';
 import { green } from '@material-ui/core/colors';
+import { TodoList } from './TodoList';
+import 'fontsource-roboto';
+
+
+const todos: Todo[] = [
+  {
+    text: 'Task A',
+    complete: false,
+    cash: 500
+  },
+  {
+    text: 'Task B',
+    complete: false,
+    cash: 250
+  },
+  {
+    text: 'A Very long Completed Task, Maybe even much longer',
+    complete: true,
+    cash: 125
+  },
+]
 
 function App() {
   const [isSelected, setIsSelected] = useState(false);
   const [backdropOpen, setBackdropOpen] = useState(true);
 
-
   return (
     <>
-      <Backdrop open={backdropOpen} onClick={() => { setBackdropOpen(false) }}>
-        <CheckCircle style={{ color: green[500], fontSize: 40 }} />
-      </Backdrop>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableBody>
-            <TableRow selected={isSelected} hover onClick={() => {
-              setIsSelected(!isSelected);
-            }}>
-              <TableCell padding="checkbox">
-                <Checkbox checked={isSelected} onChange={(e) => {
-                  setIsSelected(e.target.checked);
-                }} />
-              </TableCell>
-              <TableCell>
-                Task A
-            </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox />
-              </TableCell>
-              <TableCell>
-                Task B
-            </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <TodoList todos={todos} />
+      <Backdrop open={backdropOpen} style={{ zIndex: 1000 }} onClick={() => { setBackdropOpen(false) }}>
+        <Zoom in={backdropOpen}>
+          <CheckCircle style={{ color: green[500], fontSize: 100 }} />
+        </Zoom>
+      </Backdrop> 
     </>);
 }
 
