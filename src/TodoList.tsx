@@ -6,6 +6,7 @@ import { TodoListItem } from './TodoListItem';
 
 interface Props {
   todos: Todo[];
+  toggleTodo: ToggleTodo;
 }
 
 const useStyles = makeStyles(() => ({
@@ -15,14 +16,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-export const TodoList: React.FC<Props> = ({ todos }) => {
+export const TodoList: React.FC<Props> = ({ todos, toggleTodo }) => {
   const classes = useStyles();
 
   return (<>
     <div className={classes.root}>
       <Grid container>
         {todos.map(todoItem => (
-          <TodoListItem todo={todoItem} />
+          <TodoListItem key={todoItem.id} todo={todoItem} toggleTodo={toggleTodo} />
         ))}
       </Grid>
     </div>
