@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { Backdrop, Zoom } from '@material-ui/core';
-import { CheckCircle } from '@material-ui/icons';
-import { green } from '@material-ui/core/colors';
 import { TodoList } from './TodoList';
-import 'fontsource-roboto';
+import { CompletedBackdrop } from './CompletedBackdrop';
 
 
 const initialTodos: Todo[] = [
@@ -47,11 +44,7 @@ function App() {
   return (
     <>
       <TodoList todos={todos} toggleTodo={toggleTodo} />
-      <Backdrop open={backdropOpen} style={{ zIndex: 1000, backgroundColor: 'rgba(0, 0, 0, 0.10)' }} onClick={() => { setBackdropOpen(false) }}>
-        <Zoom in={backdropOpen}>
-          <CheckCircle style={{ color: green[500], fontSize: 100 }} />
-        </Zoom>
-      </Backdrop>
+      <CompletedBackdrop backdropOpen={backdropOpen} setBackdropOpen={setBackdropOpen} />
     </>);
 }
 
