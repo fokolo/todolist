@@ -2,11 +2,11 @@ interface Todo {
   id: number;
   text: string;
   complete: boolean;
-  cash: number;
+  coins: number;
 }
 
 type ToggleTodo = (todoId: number) => void;
 type AddTodo = (text: string,
   complete: boolean,
-  cash: number
+  coins: number
 ) => void;

@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { TodoList } from './TodoList';
 import { CompletedBackdrop } from './CompletedBackdrop';
+import { TopAppBar } from './TopAppBar';
+import { BottomAppNav } from './BottomAppNav';
+import { Container, Box } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 
 const initialTodos: Todo[] = [
@@ -8,25 +12,37 @@ const initialTodos: Todo[] = [
     id: 0,
     text: 'Task A',
     complete: false,
-    cash: 500
+    coins: 500
   },
   {
     id: 1,
     text: 'Task B',
     complete: false,
-    cash: 250
+    coins: 250
   },
   {
     id: 2,
     text: 'A Very long Completed Task, Maybe even much longer',
     complete: true,
-    cash: 125
+    coins: 125
   },
 ]
+
+const useStyles = makeStyles(() => ({
+  root: {
+    height: '100vh',
+    padding: 0,
+  },
+  lastItem: {
+    marginTop: 'auto',
+  },
+}));
 
 function App() {
   const [backdropOpen, setBackdropOpen] = useState(false);
   const [todos, setTodos] = useState(initialTodos);
+  const [coins, setCoins] = useState(0);
+  const classes = useStyles();
 
   const toggleTodo: ToggleTodo = (id: number) => {
     let todoToToggleIndex = todos.findIndex(curTodo => curTodo.id === id)
@@ -41,11 +57,14 @@ function App() {
     setAndSortTodos(newTodos);
   }
 
-  const addTodo: AddTodo = (text: string, complete: boolean, cash: number) => {
+  const addTodo: AddTodo = (text: string, complete: boolean, coins: number) => {
+    if (text === '') {
+      return
+    }
     let newTodo: Todo = {
       text: text,
       complete: complete,
-      cash: cash,
+      coins: coins,
       id: todos.length
     };
     const newTodos: Todo[] = [...todos, newTodo]
@@ -54,8 +73,7 @@ function App() {
 
   const setAndSortTodos: (newTodos: Todo[]) => void = (newTodos) => {
     newTodos.sort((a, b) => {
-      if (a.complete === b.complete)
-      {
+      if (a.complete === b.complete) {
         return a.id - b.id;
       }
       return a.complete ? 1 : -1;
@@ -64,11 +82,17 @@ function App() {
     console.log(newTodos);
   }
 
-  return (
-    <>
-      <TodoList todos={todos} toggleTodo={toggleTodo} addTodo={addTodo} />
-      <CompletedBackdrop backdropOpen={backdropOpen} setBackdropOpen={setBackdropOpen} />
-    </>);
+  return (< >
+    <Container className={classes.root}>
+      <TopAppBar />
+      <Box p={1}>
+        <TodoList todos={todos} toggleTodo={toggleTodo} addTodo={addTodo} />
+      </Box>
+      <BottomAppNav />
+    </Container>
+
+    <CompletedBackdrop backdropOpen={backdropOpen} setBackdropOpen={setBackdropOpen} />
+  </>);
 }
 
 export default App;

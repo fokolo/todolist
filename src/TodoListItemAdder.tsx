@@ -10,7 +10,7 @@ const useStyles = makeStyles(() => ({
     root: {
         marginTop: 4,
     },
-    cash: {
+    coins: {
         marginLeft: 'auto',
         paddingRight: 2,
         width: '4em',
@@ -33,22 +33,22 @@ const FormPaper = (props: any) => {
 export const TodoListItemAdder: React.FC<Props> = ({ addTodo }) => {
     const classes = useStyles();
     const [todoText, setTodoText] = useState('');
-    const [todoCashText, setTodoCashText] = useState('');
+    const [todoCoinsText, setTodoCoinsText] = useState('');
 
     const handleFromSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const todoCash: number = +todoCashText;
-        addTodo(todoText, false, todoCash);
+        const todoCoins: number = +todoCoinsText;
+        addTodo(todoText, false, todoCoins);
         setTodoText('');
-        setTodoCashText('');
+        setTodoCoinsText('');
     }
 
     const handleChangeTodoText = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTodoText(event.target.value);
     };
 
-    const handleChangeTodoCash = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTodoCashText(event.target.value);
+    const handleChangeTodoCoins = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTodoCoinsText(event.target.value);
     };
 
     return (
@@ -59,12 +59,12 @@ export const TodoListItemAdder: React.FC<Props> = ({ addTodo }) => {
                 </IconButton>
             </Grid>
             <Grid item xs className={classes.textBoxContainer} >
-                <TextField multiline rowsMax={4} className={classes.textBox} id="standard-basic" value={todoText} onChange={handleChangeTodoText} />
+                <TextField required multiline rowsMax={2} className={classes.textBox} id="standard-basic" value={todoText} onChange={handleChangeTodoText} />
             </Grid>
-            <Grid item className={classes.cash}>
+            <Grid item className={classes.coins}>
                 <TextField id="standard-number" type="number" InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }} value={todoCashText} onChange={handleChangeTodoCash} />
+                }} value={todoCoinsText} onChange={handleChangeTodoCoins} />
             </Grid>
         </Grid >
     );

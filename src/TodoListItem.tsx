@@ -7,7 +7,7 @@ interface Props {
     toggleTodo: ToggleTodo;
 }
 const useStyles = makeStyles((theme: Theme) => createStyles({
-    cash: {
+    coins: {
         marginLeft: 'auto',
         padding: 4
     },
@@ -35,8 +35,8 @@ export const TodoListItem: React.FC<Props> = ({ todo, toggleTodo }) => {
                     {todo.text}
                 </Typography>
             </Grid>
-            <Grid item className={classes.cash} >
-                <Typography align="right" color="secondary">${todo.cash}</Typography>
+            <Grid item className={classes.coins} >
+                <Typography align="right" color="secondary">${todo.coins}</Typography>
             </Grid>
         </Grid>
     );
