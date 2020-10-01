@@ -1,30 +1,37 @@
 import { Grid, Checkbox, Typography, Paper } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import React, { useState } from 'react';
 
 interface Props {
     todo: Todo;
     toggleTodo: ToggleTodo;
 }
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
     cash: {
         marginLeft: 'auto',
         padding: 4
-    }
+    },
+    doneTask: {
+        backgroundColor: theme.palette.grey[400],
+        '& #todoText': {
+            textDecoration: 'line-through',
+        },
+    },
 }));
 
 
 
 export const TodoListItem: React.FC<Props> = ({ todo, toggleTodo }) => {
     const classes = useStyles();
+    const [noWrap, setNoWrap] = useState(true);
 
     return (
-        <Grid container item zeroMinWidth xs={12} onClick={() => toggleTodo(todo.id)} component={Paper} alignItems="center" square>
+        <Grid className={todo.complete ? classes.doneTask : ""} container item zeroMinWidth xs={12} component={Paper} alignItems="center" square>
             <Grid item>
-                <Checkbox checked={todo.complete} onChange={() => toggleTodo(todo.id)}/>
+                <Checkbox checked={todo.complete} color="primary" onChange={() => toggleTodo(todo.id)} />
             </Grid>
-            <Grid item zeroMinWidth xs>
-                <Typography noWrap>
+            <Grid item zeroMinWidth xs onClick={() => setNoWrap(!noWrap)}>
+                <Typography id="todoText" className={noWrap ? "MuiTypography-noWrap" : ""} >
                     {todo.text}
                 </Typography>
             </Grid>
