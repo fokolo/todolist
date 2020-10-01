@@ -36,14 +36,25 @@ function App() {
       setBackdropOpen(true)
       setTimeout(() => {
         setBackdropOpen(false)
-      }, 750)
+      }, 500)
     }
+    setTodos(newTodos);
+  }
+
+  const addTodo: AddTodo = (text: string, complete: boolean, cash: number) => {
+    let newTodo: Todo = {
+      text: text,
+      complete: complete,
+      cash: cash,
+      id: todos.length
+    };
+    const newTodos: Todo[] = [...todos, newTodo]
     setTodos(newTodos);
   }
 
   return (
     <>
-      <TodoList todos={todos} toggleTodo={toggleTodo} />
+      <TodoList todos={todos} toggleTodo={toggleTodo} addTodo={addTodo} />
       <CompletedBackdrop backdropOpen={backdropOpen} setBackdropOpen={setBackdropOpen} />
     </>);
 }

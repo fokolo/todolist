@@ -18,11 +18,10 @@ const useStyles = makeStyles(() => ({
 export const TodoListItem: React.FC<Props> = ({ todo, toggleTodo }) => {
     const classes = useStyles();
 
-
     return (
-        <Grid container item zeroMinWidth xs={12} component={Paper} alignItems="center" square>
+        <Grid container item zeroMinWidth xs={12} onClick={() => toggleTodo(todo.id)} component={Paper} alignItems="center" square>
             <Grid item>
-                <Checkbox checked={todo.complete} onChange={(e) => toggleTodo(todo.id)} />
+                <Checkbox checked={todo.complete} onChange={() => toggleTodo(todo.id)}/>
             </Grid>
             <Grid item zeroMinWidth xs>
                 <Typography noWrap>
