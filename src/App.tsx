@@ -38,7 +38,7 @@ function App() {
         setBackdropOpen(false)
       }, 500)
     }
-    setTodos(newTodos);
+    setAndSortTodos(newTodos);
   }
 
   const addTodo: AddTodo = (text: string, complete: boolean, cash: number) => {
@@ -49,7 +49,19 @@ function App() {
       id: todos.length
     };
     const newTodos: Todo[] = [...todos, newTodo]
+    setAndSortTodos(newTodos);
+  }
+
+  const setAndSortTodos: (newTodos: Todo[]) => void = (newTodos) => {
+    newTodos.sort((a, b) => {
+      if (a.complete === b.complete)
+      {
+        return a.id - b.id;
+      }
+      return a.complete ? 1 : -1;
+    })
     setTodos(newTodos);
+    console.log(newTodos);
   }
 
   return (
