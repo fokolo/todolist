@@ -54,7 +54,7 @@ function App() {
         setBackdropOpen(false)
       }, 500)
     }
-    setAndSortTodos(newTodos);
+    updateTodos(newTodos);
   }
 
   const addTodo: AddTodo = (text: string, complete: boolean, coins: number) => {
@@ -68,23 +68,34 @@ function App() {
       id: todos.length
     };
     const newTodos: Todo[] = [...todos, newTodo]
-    setAndSortTodos(newTodos);
+    updateTodos(newTodos);
   }
 
-  const setAndSortTodos: (newTodos: Todo[]) => void = (newTodos) => {
+  function sortTodos(newTodos: Todo[]): Todo[] {
     newTodos.sort((a, b) => {
       if (a.complete === b.complete) {
         return a.id - b.id;
       }
       return a.complete ? 1 : -1;
-    })
-    setTodos(newTodos);
-    console.log(newTodos);
+    });
+    return newTodos;
+  }
+
+  function calculateCoins(todos: Todo[]): number {
+    return todos.filter(item => item.complete === true)
+    .reduce((sum: number, currentElement: Todo) => {
+      return sum + currentElement.coins;
+    }, 0);
+  }
+
+  const updateTodos: (newTodos: Todo[]) => void = (newTodos) => {
+    setTodos(sortTodos(newTodos));
+    setCoins(calculateCoins(newTodos));
   }
 
   return (< >
     <Container className={classes.root}>
-      <TopAppBar />
+      <TopAppBar coins={coins} />
       <Box p={1}>
         <TodoList todos={todos} toggleTodo={toggleTodo} addTodo={addTodo} />
       </Box>
@@ -93,6 +104,7 @@ function App() {
 
     <CompletedBackdrop backdropOpen={backdropOpen} setBackdropOpen={setBackdropOpen} />
   </>);
+
 }
 
 export default App;

@@ -11,17 +11,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     topAppBar: {
     },
     coinsChip: {
-        marginRight: theme.spacing(2),
     },
+    title: {
+        flexGrow: 1,
+    },
+
 }));
 
-export const TopAppBar: React.FC<Props> = (coins) => {
+export const TopAppBar: React.FC<Props> = ({ coins }) => {
     const classes = useStyles();
 
     return (<>
         <AppBar className={classes.topAppBar} position="fixed">
             <Toolbar>
-                <Typography variant="h6">Gamify your Life</Typography>
+                <Typography className={classes.title} variant="h6">Gamify your Life</Typography>
                 <Chip icon={<CoinsIcon />} aria-label="$" label={coins} className={classes.coinsChip} />
             </Toolbar>
         </AppBar>
