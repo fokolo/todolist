@@ -5,6 +5,29 @@ import { TopAppBar } from './TopAppBar';
 import { BottomAppNav } from './BottomAppNav';
 import { Container, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/analytics';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { Authentication } from './Authentication';
+
+firebase.initializeApp({
+  apiKey: "AIzaSyCnjOQfm5TzEZjHZ0LedcsEet0Sqjl0-7M",
+  authDomain: "gamified-todo-app.firebaseapp.com",
+  databaseURL: "https://gamified-todo-app.firebaseio.com",
+  projectId: "gamified-todo-app",
+  storageBucket: "gamified-todo-app.appspot.com",
+  messagingSenderId: "977360156689",
+  appId: "1:977360156689:web:0a2162a2d5f023f39b19b0",
+  measurementId: "G-B9S1LMLB1F"
+})
+
+const auth = firebase.auth();
+const firestore = firebase.firestore();
+const analytics = firebase.analytics();
+
 
 const initialTodos: Todo[] = [
 ];
@@ -23,6 +46,7 @@ function App() {
   const [backdropOpen, setBackdropOpen] = useState(false);
   const [todos, setTodos] = useState(initialTodos);
   const [coins, setTotalCoins] = useState(0);
+  const [user] = useAuthState(auth);
   const classes = useStyles();
 
   const toggleTodo: ToggleTodo = (id: number) => {
@@ -78,7 +102,9 @@ function App() {
 
   return (< >
     <Container className={classes.root}>
-      <TopAppBar coins={coins} />
+      <TopAppBar coins={coins}>
+        <Authentication user={user} auth={auth} />
+      </TopAppBar>
       <Box p={1}>
         <TodoList todos={todos} toggleTodo={toggleTodo} addTodo={addTodo} />
       </Box>
