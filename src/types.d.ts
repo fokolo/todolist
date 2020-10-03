@@ -6,6 +6,7 @@ interface Todo {
 }
 
 type ToggleTodo = (todoId: number) => void;
+type UpdateTodos = (newTodos: Todo[]) => void;
 type AddTodo = (text: string,
   complete: boolean,
   coins: number

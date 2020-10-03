@@ -6,27 +6,8 @@ import { BottomAppNav } from './BottomAppNav';
 import { Container, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-
 const initialTodos: Todo[] = [
-  {
-    id: 0,
-    text: 'Task A',
-    complete: false,
-    coins: 500
-  },
-  {
-    id: 1,
-    text: 'Task B',
-    complete: false,
-    coins: 250
-  },
-  {
-    id: 2,
-    text: 'A Very long Completed Task, Maybe even much longer',
-    complete: true,
-    coins: 125
-  },
-]
+];
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -41,7 +22,7 @@ const useStyles = makeStyles(() => ({
 function App() {
   const [backdropOpen, setBackdropOpen] = useState(false);
   const [todos, setTodos] = useState(initialTodos);
-  const [coins, setCoins] = useState(0);
+  const [coins, setTotalCoins] = useState(0);
   const classes = useStyles();
 
   const toggleTodo: ToggleTodo = (id: number) => {
@@ -81,16 +62,18 @@ function App() {
     return newTodos;
   }
 
-  function calculateCoins(todos: Todo[]): number {
+  function calculateTotalCoins(todos: Todo[]): number {
     return todos.filter(item => item.complete === true)
-    .reduce((sum: number, currentElement: Todo) => {
-      return sum + currentElement.coins;
-    }, 0);
+      .reduce((sum: number, currentElement: Todo) => {
+        return sum + currentElement.coins;
+      }, 0);
   }
 
-  const updateTodos: (newTodos: Todo[]) => void = (newTodos) => {
-    setTodos(sortTodos(newTodos));
-    setCoins(calculateCoins(newTodos));
+  const updateTodos: UpdateTodos = (newTodos) => {
+    if (newTodos.length > 0) {
+      setTodos(sortTodos(newTodos));
+      setTotalCoins(calculateTotalCoins(newTodos));
+    }
   }
 
   return (< >
