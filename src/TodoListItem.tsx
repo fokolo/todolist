@@ -24,11 +24,12 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 export const TodoListItem: React.FC<Props> = ({ todo, toggleTodo }) => {
     const classes = useStyles();
     const [noWrap, setNoWrap] = useState(true);
+    const complete = todo.completed ? true : false
 
     return (
-        <Grid className={todo.complete ? classes.doneTask : ""} container item zeroMinWidth xs={12} component={Paper} alignItems="center" square>
+        <Grid className={complete ? classes.doneTask : ""} container item zeroMinWidth xs={12} component={Paper} alignItems="center" square>
             <Grid item>
-                <Checkbox checked={todo.complete} color="primary" onChange={() => toggleTodo(todo.id)} />
+                <Checkbox checked={complete} color="primary" onChange={() => toggleTodo(todo.id)} />
             </Grid>
             <Grid item zeroMinWidth xs onClick={() => setNoWrap(!noWrap)}>
                 <Typography id="todoText" className={noWrap ? "MuiTypography-noWrap" : ""} >
