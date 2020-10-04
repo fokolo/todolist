@@ -38,7 +38,7 @@ export const TodoListItemAdder: React.FC<Props> = ({ addTodo }) => {
     const handleFromSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const todoCoins: number = +todoCoinsText;
-        addTodo(todoText, false, todoCoins);
+        addTodo(todoText, todoCoins);
         setTodoText('');
         setTodoCoinsText('');
     }

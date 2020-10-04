@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 interface Props {
     todo: Todo;
-    toggleTodo: ToggleTodo;
+    setTodoState: SetTodoState;
 }
 const useStyles = makeStyles((theme: Theme) => createStyles({
     coins: {
@@ -17,19 +17,23 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
             textDecoration: 'line-through',
         },
     },
+    smoothTransition: {
+        transition: '2s',
+    },
 }));
 
 
 
-export const TodoListItem: React.FC<Props> = ({ todo, toggleTodo }) => {
+export const TodoListItem: React.FC<Props> = ({ todo, setTodoState }) => {
     const classes = useStyles();
     const [noWrap, setNoWrap] = useState(true);
-    const complete = todo.completed ? true : false
+    const complete = todo.completedAt ? true : false
+    const completedClass: string = complete ? classes.doneTask : ""
 
     return (
-        <Grid className={complete ? classes.doneTask : ""} container item zeroMinWidth xs={12} component={Paper} alignItems="center" square>
+        <Grid className={`${classes.smoothTransition} ${completedClass}`} container item zeroMinWidth xs={12} component={Paper} alignItems="center" square>
             <Grid item>
-                <Checkbox checked={complete} color="primary" onChange={() => toggleTodo(todo.id)} />
+                <Checkbox checked={complete} color="primary" onChange={() => setTodoState(todo.id, !complete)} />
             </Grid>
             <Grid item zeroMinWidth xs onClick={() => setNoWrap(!noWrap)}>
                 <Typography id="todoText" className={noWrap ? "MuiTypography-noWrap" : ""} >

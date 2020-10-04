@@ -3,14 +3,13 @@ import { TodoList } from './TodoList';
 import { CompletedBackdrop } from './CompletedBackdrop';
 import { TopAppBar } from './TopAppBar';
 import { BottomAppNav } from './BottomAppNav';
-import { Container, Box } from '@material-ui/core';
+import { Container, Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { Authentication } from './Authentication';
 
 firebase.initializeApp({
@@ -41,68 +40,32 @@ const useStyles = makeStyles(() => ({
 
 function App() {
   const [backdropOpen, setBackdropOpen] = useState(false);
-  const [coins, setTotalCoins] = useState(0);
-  const [user] = useAuthState(auth);
+  const [user, , authError] = useAuthState(auth);
   const classes = useStyles();
-  const todosRef = firestore.collection('Todos');
-  const selfTodosQuery = todosRef.where("uid","==",user?.uid ? user?.uid : "").orderBy('created')
-  const [todos,, error] = useCollectionData<Todo>(selfTodosQuery, { idField: 'id' });
-  console.log(user?.uid);
-  if (error) {
-    console.log(error);
+  const [coins, setTotalCoins] = useState(0);
+
+  if (authError) {
+    console.log(authError);
   }
 
+  const mainPanel = () => {
+    if (user) {
+      return (
+        <TodoList user={user} firestore={firestore} setTotalCoins={setTotalCoins} completedTask={completedTask}/>
+      )
+    }
+    else {
+      return (<Typography>Please log in above</Typography>)
+    }
+  }
 
-  const toggleTodo: ToggleTodo = (id: string) => {}
-  //   let todoToToggleIndex = todos.findIndex(curTodo => curTodo.id === id)
-  //   let newTodos = [...todos];
-  //   newTodos[todoToToggleIndex] = { ...newTodos[todoToToggleIndex], complete: !newTodos[todoToToggleIndex].complete }
-  //   if (newTodos[todoToToggleIndex].complete) {
-  //     setBackdropOpen(true)
-  //     setTimeout(() => {
-  //       setBackdropOpen(false)
-  //     }, 500)
-  //   }
-  //   updateTodos(newTodos);
-  // }
+  const completedTask = () => {
+    setBackdropOpen(true)
+    setTimeout(() => {
+      setBackdropOpen(false)
+    }, 300)
 
-  const addTodo: AddTodo = (text: string, complete: boolean, coins: number) => {}
-  //   if (text === '') {
-  //     return
-  //   }
-  //   let newTodo: Todo = {
-  //     text: text,
-  //     complete: complete,
-  //     coins: coins,
-  //     id: todos.length
-  //   };
-  //   const newTodos: Todo[] = [...todos, newTodo]
-  //   updateTodos(newTodos);
-  // }
-
-  // function sortTodos(newTodos: Todo[]): Todo[] {
-  //   newTodos.sort((a, b) => {
-  //     if (a.complete === b.complete) {
-  //       return a.id - b.id;
-  //     }
-  //     return a.complete ? 1 : -1;
-  //   });
-  //   return newTodos;
-  // }
-
-  // function calculateTotalCoins(todos: Todo[]): number {
-  //   return todos.filter(item => item.complete === true)
-  //     .reduce((sum: number, currentElement: Todo) => {
-  //       return sum + currentElement.coins;
-  //     }, 0);
-  // }
-
-  // const updateTodos: UpdateTodos = (newTodos) => {
-  //   if (newTodos.length > 0) {
-  //     // setTodos(sortTodos(newTodos));
-  //     setTotalCoins(calculateTotalCoins(newTodos));
-  //   }
-  // }
+  }
 
   return (< >
     <Container className={classes.root}>
@@ -110,7 +73,7 @@ function App() {
         <Authentication user={user} auth={auth} />
       </TopAppBar>
       <Box p={1}>
-        <TodoList todos={todos ? todos : []} toggleTodo={toggleTodo} addTodo={addTodo} />
+        {mainPanel()}
       </Box>
       <BottomAppNav />
     </Container>

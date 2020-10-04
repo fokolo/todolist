@@ -1,16 +1,14 @@
 interface Todo {
   id: string;
-  uid: string;
-  completed: string;
-  created: string;
   text: string;
-  complete: boolean;
   coins: number;
+  completedAt: string;
+  createdAt: string;
 }
 
-type ToggleTodo = (todoId: string) => void;
+type SetTodoState = (todoId: string, toComplete: boolean) => void;
 type UpdateTodos = (newTodos: Todo[]) => void;
 type AddTodo = (text: string,
-  complete: boolean,
   coins: number
 ) => void;
+type SetTotalCoins = (totalCoins: number) => void;
