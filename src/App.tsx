@@ -25,7 +25,6 @@ firebase.initializeApp({
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-const analytics = firebase.analytics();
 
 
 const useStyles = makeStyles(() => ({
@@ -51,7 +50,7 @@ function App() {
   const mainPanel = () => {
     if (user) {
       return (
-        <TodoList user={user} firestore={firestore} setTotalCoins={setTotalCoins} completedTask={completedTask}/>
+        <TodoList user={user} firestore={firestore} setTotalCoins={setTotalCoins} completedTask={completedTask} />
       )
     }
     else {
