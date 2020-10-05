@@ -61,8 +61,9 @@ export const TodoList: React.FC<Props> = ({
     const todoDocumentRef = todosCollectionRef.doc(id);
     if (toComplete) {
       todoDocumentRef.update({
-        completedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        completedAt: firebase.firestore.Timestamp.now(),
       });
+      console.log(todos);
       completedTask();
     } else {
       todoDocumentRef.update({
@@ -78,7 +79,7 @@ export const TodoList: React.FC<Props> = ({
     todosCollectionRef.add({
       text: text,
       coins: coins,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: firebase.firestore.Timestamp.now(),
       completedAt: null,
     });
   };
