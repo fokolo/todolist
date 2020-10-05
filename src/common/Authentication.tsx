@@ -18,31 +18,36 @@ export const Authentication: React.FC<Props> = ({
   signInWithGoogle,
 }) => {
   const SignIn = () => {
-    return (
-      <IconButton>
-        <Avatar onClick={signInWithGoogle} />
-      </IconButton>
-    );
+    return <Avatar />;
   };
 
   const SignOut = () => {
-    const AuthSignOut = () => {
-      Modals.confirm({
-        title: "Sign Out",
-        message: "Sign out",
-      }).then((shouldSignout) => {
-        if (shouldSignout.value) {
-          auth.signOut();
-        }
-      });
-    };
     if (user) {
       const displayName = user.displayName ? user.displayName : "???";
       const photoURL = user.photoURL ? user.photoURL : "";
 
-      return <Avatar alt={displayName} src={photoURL} onClick={AuthSignOut} />;
+      return <Avatar alt={displayName} src={photoURL} />;
     }
   };
 
-  return <>{user ? SignOut() : SignIn()}</>;
+  const AuthSignOut = () => {
+    Modals.confirm({
+      title: "Sign Out",
+      message: "Sign out",
+    }).then((shouldSignout) => {
+      if (shouldSignout.value) {
+        auth.signOut();
+      }
+    });
+  };
+
+  return (
+    <IconButton
+      edge="start"
+      size="small"
+      onClick={user ? AuthSignOut : signInWithGoogle}
+    >
+      {user ? SignOut() : SignIn()}
+    </IconButton>
+  );
 };

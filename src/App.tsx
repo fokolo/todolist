@@ -22,6 +22,20 @@ firebase.initializeApp({
   appId: "1:977360156689:web:0a2162a2d5f023f39b19b0",
   measurementId: "G-B9S1LMLB1F",
 });
+firebase
+  .firestore()
+  .enablePersistence()
+  .catch(function (err) {
+    if (err.code === "failed-precondition") {
+      console.log(
+        `Failed to enable firestore offline persistence, due to ${err}`
+      );
+    } else if (err.code === "unimplemented") {
+      console.log(
+        `Failed to enable firestore offline persistence. Browser does not support firestore offline ${err}`
+      );
+    }
+  });
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
