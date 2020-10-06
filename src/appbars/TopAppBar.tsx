@@ -9,7 +9,9 @@ interface Props {
 
 const useStyles = makeStyles((theme: Theme) => ({
   topAppBar: {},
-  coinsChip: {},
+  coinsChip: {
+    paddingLeft: 5,
+  },
   spacer: {
     flexGrow: 1,
   },
@@ -26,6 +28,7 @@ export const TopAppBar: React.FC<Props> = ({ coins, children }) => {
           <div className={classes.spacer} />
           <Chip
             icon={<CoinsIcon />}
+            color="secondary"
             aria-label="$"
             label={coins}
             className={classes.coinsChip}

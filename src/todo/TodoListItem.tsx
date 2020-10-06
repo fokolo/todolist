@@ -1,6 +1,7 @@
 import { Grid, Checkbox, Typography, Paper } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, { useState } from "react";
+import { CoinX } from "../common/SvgIcons";
 
 interface Props {
   todo: Todo;
@@ -54,9 +55,7 @@ export const TodoListItem: React.FC<Props> = ({ todo, setTodoState }) => {
         </Typography>
       </Grid>
       <Grid item className={classes.coins}>
-        <Typography align="right" color="secondary">
-          ${todo.coins}
-        </Typography>
+        <CoinX coin={todo.coins} />
       </Grid>
     </Grid>
   );
