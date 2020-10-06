@@ -11,6 +11,7 @@ import "firebase/auth";
 import "firebase/analytics";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Authentication } from "./common/Authentication";
+import { Store } from "./store/Store";
 
 firebase.initializeApp({
   apiKey: "AIzaSyCnjOQfm5TzEZjHZ0LedcsEet0Sqjl0-7M",
@@ -58,6 +59,8 @@ function App() {
   const [user, , authError] = useAuthState(auth);
   const classes = useStyles();
   const [coins, setTotalCoins] = useState(0);
+  const [currentLocation, setCurrentLocation] = useState(0);
+  let currentPanel: voidFunc;
 
   if (authError) {
     console.log(authError);
@@ -68,7 +71,7 @@ function App() {
     auth.signInWithPopup(provider);
   };
 
-  const mainPanel = () => {
+  const todosPanel = () => {
     if (user) {
       return (
         <Box p={1}>
@@ -81,6 +84,9 @@ function App() {
         </Box>
       );
     }
+  };
+
+  const loginPanel = () => {
     return (
       <Grid container justify="center" alignItems="center" item xs={12}>
         <Button
@@ -95,12 +101,36 @@ function App() {
     );
   };
 
+  const storePanel = () => {
+    return <Store />;
+  };
+
+  const settingsPanel = () => {
+    return <div>Settings</div>;
+  };
+
   const completedTask = () => {
     setBackdropOpen(true);
     setTimeout(() => {
       setBackdropOpen(false);
     }, 300);
   };
+
+  if (user) {
+    switch (currentLocation) {
+      case 0:
+        currentPanel = todosPanel;
+        break;
+      case 1:
+        currentPanel = storePanel;
+        break;
+      default:
+        currentPanel = settingsPanel;
+        break;
+    }
+  } else {
+    currentPanel = loginPanel;
+  }
 
   return (
     <div style={{ flexGrow: 1 }}>
@@ -112,8 +142,11 @@ function App() {
             signInWithGoogle={signInWithGoogle}
           />
         </TopAppBar>
-        {mainPanel()}
-        <BottomAppNav />
+        {currentPanel()}
+        <BottomAppNav
+          currentLocation={currentLocation}
+          setCurrentLocation={setCurrentLocation}
+        />
       </Container>
 
       <CompletedBackdrop

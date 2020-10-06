@@ -4,14 +4,17 @@ import {
   BottomNavigationAction,
   Container,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import StoreIcon from "@material-ui/icons/Store";
 import SettingsIcon from "@material-ui/icons/Settings";
 
-interface Props {}
+interface Props {
+  currentLocation: number;
+  setCurrentLocation: (currentLocation: number) => void;
+}
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
   bottomAppBar: {
@@ -20,8 +23,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const BottomAppNav: React.FC<Props> = () => {
-  const [currentLocation, setCurrentLocation] = useState(0);
+export const BottomAppNav: React.FC<Props> = ({
+  currentLocation,
+  setCurrentLocation,
+}) => {
   const classes = useStyles();
 
   return (

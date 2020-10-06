@@ -10,3 +10,4 @@ type SetTodoState = (todoId: string, toComplete: boolean) => void;
 type UpdateTodos = (newTodos: Todo[]) => void;
 type AddTodo = (text: string, coins: number) => void;
 type SetTotalCoins = (totalCoins: number) => void;
+type voidFunc = () => void;
