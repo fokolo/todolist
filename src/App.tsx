@@ -59,7 +59,7 @@ function App() {
   const [user, , authError] = useAuthState(auth);
   const classes = useStyles();
   const [coins, setTotalCoins] = useState(0);
-  const [currentLocation, setCurrentLocation] = useState(0);
+  const [currentLocation, setCurrentLocation] = useState(1);
   let currentPanel: voidFunc;
 
   if (authError) {
