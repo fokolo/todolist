@@ -3,15 +3,19 @@ import { TodoList } from "./todo/TodoList";
 import { CompletedBackdrop } from "./common/CompletedBackdrop";
 import { TopAppBar } from "./appbars/TopAppBar";
 import { BottomAppNav } from "./appbars/BottomAppNav";
-import { Box, Grid, Container, Button } from "@material-ui/core";
+import { Box, Grid, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import { User } from "firebase/app";
+
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Authentication } from "./common/Authentication";
+import { Authentication } from "./common/UserAvatar";
 import { Store } from "./store/Store";
+import { cfaSignIn } from "capacitor-firebase-auth";
 
 firebase.initializeApp({
   apiKey: "AIzaSyCnjOQfm5TzEZjHZ0LedcsEet0Sqjl0-7M",
@@ -66,9 +70,14 @@ function App() {
     console.log(authError);
   }
 
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
+  const uiConfig = {
+    signInFlow: "popup",
+    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    callbacks: {
+      signInSuccessWithAuthResult: () => {
+        return false;
+      },
+    },
   };
 
   const todosPanel = () => {
@@ -87,16 +96,14 @@ function App() {
   };
 
   const loginPanel = () => {
+    const loginLogic = () => {
+      cfaSignIn("google.com");
+    };
+
     return (
       <Grid container justify="center" alignItems="center" item xs={12}>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.signin}
-          onClick={signInWithGoogle}
-        >
-          Sign In
-        </Button>
+        {/* <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} /> */}
+        <div onClick={loginLogic}> Click me </div>
       </Grid>
     );
   };
@@ -136,11 +143,7 @@ function App() {
     <div style={{ flexGrow: 1 }}>
       <Container className={classes.root}>
         <TopAppBar coins={coins}>
-          <Authentication
-            user={user}
-            auth={auth}
-            signInWithGoogle={signInWithGoogle}
-          />
+          <Authentication user={user} auth={auth} />
         </TopAppBar>
         {currentPanel()}
         <BottomAppNav

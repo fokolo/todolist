@@ -23,11 +23,9 @@ interface Props {
   onItemPurchase: OnItemPurchase;
 }
 const useStyles = makeStyles((theme) => ({
-  pos: {
-    marginBottom: 12,
-  },
-  cover: {
-    width: 151,
+  root: {
+    margin: theme.spacing(0.5),
+    transition: "width 2s",
   },
   expand: {
     transform: "rotate(0deg)",
@@ -57,7 +55,7 @@ export const StoreItem: React.FC<Props> = ({
   };
 
   return (
-    <Card raised={true}>
+    <Card raised={true} className={classes.root}>
       <CardHeader
         avatar={itemIcon}
         title={
