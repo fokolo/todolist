@@ -3,14 +3,12 @@ import { TodoList } from "./todo/TodoList";
 import { CompletedBackdrop } from "./common/CompletedBackdrop";
 import { TopAppBar } from "./appbars/TopAppBar";
 import { BottomAppNav } from "./appbars/BottomAppNav";
-import { Box, Grid, Container } from "@material-ui/core";
+import { Box, Grid, Container, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import { User } from "firebase/app";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Authentication } from "./common/UserAvatar";
@@ -56,6 +54,14 @@ const useStyles = makeStyles((theme) => ({
   signin: {
     margin: theme.spacing(3, 0, 2),
   },
+  googleIcon: {
+    height: 18,
+    width: 18,
+    paddingRight: theme.spacing(1),
+  },
+  loginGrid: {
+    marginTop: theme.spacing(5),
+  },
 }));
 
 function App() {
@@ -69,16 +75,6 @@ function App() {
   if (authError) {
     console.log(authError);
   }
-
-  const uiConfig = {
-    signInFlow: "popup",
-    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
-    callbacks: {
-      signInSuccessWithAuthResult: () => {
-        return false;
-      },
-    },
-  };
 
   const todosPanel = () => {
     if (user) {
@@ -101,9 +97,24 @@ function App() {
     };
 
     return (
-      <Grid container justify="center" alignItems="center" item xs={12}>
-        {/* <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} /> */}
-        <div onClick={loginLogic}> Click me </div>
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        item
+        xs={12}
+        className={classes.loginGrid}
+      >
+        <Button
+          style={{ textTransform: "none" }}
+          onClick={loginLogic}
+          variant="outlined"
+          startIcon={
+            <img alt="" src="google.svg" className={classes.googleIcon} />
+          }
+        >
+          Sign in with Google
+        </Button>
       </Grid>
     );
   };

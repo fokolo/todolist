@@ -3,6 +3,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import { Avatar, IconButton } from "@material-ui/core";
 import { Plugins } from "@capacitor/core";
+import { cfaSignOut } from "capacitor-firebase-auth";
 
 const { Modals } = Plugins;
 
@@ -32,13 +33,13 @@ export const Authentication: React.FC<Props> = ({ user, auth }) => {
       message: "Sign out",
     }).then((shouldSignout) => {
       if (shouldSignout.value) {
-        auth.signOut();
+        cfaSignOut();
       }
     });
   };
 
   const AlertSignIn = () => {
-    // TODO: change to alert dialog by material design below
+    // TODO: change to alert dialog by material design below - dialog
     alert("Sign in");
   };
   return (
