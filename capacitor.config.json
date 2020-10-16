@@ -2,7 +2,7 @@
   "appId": "com.talpaz.gamifytodos",
   "appName": "GamifyTodos",
   "bundledWebRuntime": false,
-  "npmClient": "yarn",
+  "npmClient": "npm",
   "webDir": "build",
   "plugins": {
     "SplashScreen": {

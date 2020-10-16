@@ -1,0 +1,7 @@
+{
+  "name": "Gamify Todo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

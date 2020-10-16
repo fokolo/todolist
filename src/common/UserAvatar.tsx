@@ -32,8 +32,11 @@ export const Authentication: React.FC<Props> = ({ user, auth }) => {
       title: "Sign Out",
       message: "Sign out",
     }).then((shouldSignout) => {
+      console.log(`Should signout: ${shouldSignout}`);
       if (shouldSignout.value) {
-        cfaSignOut();
+        cfaSignOut().subscribe(() => {
+          console.log("Logged Out");
+        });
       }
     });
   };

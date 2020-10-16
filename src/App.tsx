@@ -93,7 +93,9 @@ function App() {
 
   const loginPanel = () => {
     const loginLogic = () => {
-      cfaSignIn("google.com");
+      cfaSignIn("google.com").subscribe(() => {
+        console.log("Logged In");
+      });
     };
 
     return (
