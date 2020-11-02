@@ -9,11 +9,15 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
+import { Redirect, Route } from "react-router-dom";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Authentication } from "./common/UserAvatar";
 import { Store } from "./store/Store";
-import { cfaSignIn } from "capacitor-firebase-auth";
+import { IonApp } from "@ionic/react";
+import { IonReactRouter } from "@ionic/react-router";
+import { LoginPage } from "./pages/LoginPage";
+import { TabsContainer } from "./pages/TabsContainer";
 
 firebase.initializeApp({
   apiKey: "AIzaSyCnjOQfm5TzEZjHZ0LedcsEet0Sqjl0-7M",
@@ -54,126 +58,54 @@ const useStyles = makeStyles((theme) => ({
   signin: {
     margin: theme.spacing(3, 0, 2),
   },
-  googleIcon: {
-    height: 18,
-    width: 18,
-    paddingRight: theme.spacing(1),
-  },
-  loginGrid: {
-    marginTop: theme.spacing(5),
-  },
 }));
 
 function App() {
-  const [backdropOpen, setBackdropOpen] = useState(false);
   const [user, , authError] = useAuthState(auth);
   const classes = useStyles();
-  const [coins, setTotalCoins] = useState(0);
-  const [currentLocation, setCurrentLocation] = useState(1);
-  let currentPanel: voidFunc;
 
   if (authError) {
     console.log(authError);
   }
 
-  const todosPanel = () => {
+  const getFirebaseConnection: GetFirebaseConnection = () => {
     if (user) {
-      return (
-        <Box p={1}>
-          <TodoList
-            user={user}
-            firestore={firestore}
-            setTotalCoins={setTotalCoins}
-            completedTask={completedTask}
-          />
-        </Box>
-      );
+      return {
+        user: user,
+        firestore: firestore,
+      };
     }
+    throw new Error("Error Authenticating");
   };
-
-  const loginPanel = () => {
-    const loginLogic = () => {
-      cfaSignIn("google.com").subscribe(() => {
-        console.log("Logged In");
-      });
-    };
-
-    return (
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        item
-        xs={12}
-        className={classes.loginGrid}
-      >
-        <Button
-          style={{ textTransform: "none" }}
-          onClick={loginLogic}
-          variant="outlined"
-          startIcon={
-            <img alt="" src="google.svg" className={classes.googleIcon} />
-          }
-        >
-          Sign in with Google
-        </Button>
-      </Grid>
-    );
-  };
-
-  const storePanel = () => {
-    return <Store />;
-  };
-
-  const settingsPanel = () => {
-    return <div>Settings</div>;
-  };
-
-  const completedTask = () => {
-    setBackdropOpen(true);
-    setTimeout(() => {
-      setBackdropOpen(false);
-    }, 300);
-  };
-
-  if (user) {
-    switch (currentLocation) {
-      case 0:
-        currentPanel = todosPanel;
-        break;
-      case 1:
-        currentPanel = storePanel;
-        break;
-      default:
-        currentPanel = settingsPanel;
-        break;
-    }
-  } else {
-    currentPanel = loginPanel;
-  }
 
   return (
-    <div style={{ flexGrow: 1 }}>
-      <Container className={classes.root}>
-        <TopAppBar coins={coins}>
-          <Authentication user={user} auth={auth} />
-        </TopAppBar>
-        {currentPanel()}
-        <BottomAppNav
-          currentLocation={currentLocation}
-          setCurrentLocation={setCurrentLocation}
-        />
-      </Container>
+    <IonApp>
+      {user ? (
+        <TabsContainer getFirebaseConnection={getFirebaseConnection} />
+      ) : (
+        <LoginPage />
+      )}
+    </IonApp>
+    //   <Container className={classes.root}>
+    //     <TopAppBar coins={coins}>
+    //       <Authentication user={user} auth={auth} />
+    //     </TopAppBar>
+    //     {currentPanel()}
+    //     <BottomAppNav
+    //       currentLocation={currentLocation}
+    //       setCurrentLocation={setCurrentLocation}
+    //     />
+    //   </Container>
 
-      <CompletedBackdrop
-        backdropOpen={backdropOpen}
-        setBackdropOpen={setBackdropOpen}
-      />
-      <CompletedBackdrop
-        backdropOpen={backdropOpen}
-        setBackdropOpen={setBackdropOpen}
-      />
-    </div>
+    //   <CompletedBackdrop
+    //     backdropOpen={backdropOpen}
+    //     setBackdropOpen={setBackdropOpen}
+    //   />
+    //   <CompletedBackdrop
+    //     backdropOpen={backdropOpen}
+    //     setBackdropOpen={setBackdropOpen}
+    //   />
+    // </div>
   );
 }
 
