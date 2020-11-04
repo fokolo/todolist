@@ -1,62 +1,93 @@
-import { Grid, Checkbox, Typography, Paper } from "@material-ui/core";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React, { useState } from "react";
+import {
+  IonItem,
+  IonLabel,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
+  IonIcon,
+} from "@ionic/react";
+import React, { useRef, useState } from "react";
 import { CoinX } from "../common/SvgIcons";
+import {
+  trashOutline,
+  checkmarkCircleOutline,
+  arrowUndoCircleOutline,
+} from "ionicons/icons";
 
 interface Props {
   todo: Todo;
   setTodoState: SetTodoState;
+  deleteTodo: DeleteTodo;
 }
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    coins: {
-      marginLeft: "auto",
-      padding: 4,
-    },
-    doneTask: {
-      backgroundColor: theme.palette.grey[400],
-      "& #todoText": {
-        textDecoration: "line-through",
-      },
-    },
-  })
-);
 
-export const TodoListItem: React.FC<Props> = ({ todo, setTodoState }) => {
-  const classes = useStyles();
-  const [noWrap, setNoWrap] = useState(true);
-  const complete = todo.completedAt ? true : false;
-  const completedClass: string = complete ? classes.doneTask : "";
+// doneTask: {
+//   backgroundColor: theme.palette.grey[400],
+//   "& #todoText": {
+//     textDecoration: "line-through",
+//   },
+// },
+
+export const TodoListItem: React.FC<Props> = ({
+  todo,
+  setTodoState,
+  deleteTodo,
+}) => {
+  const [noWrap, setNoWrap] = useState(false);
+  const isComplete = todo.completedAt ? true : false;
+  const rootComponent = useRef();
+
+  const onSwipeItem = (e: CustomEvent<any>) => {
+    if (rootComponent && rootComponent.current) {
+      rootComponent.current.close();
+    }
+
+    if (e.detail.side === "end") {
+      deleteTodo(todo.id);
+    } else if (e.detail.side === "start") {
+      setTimeout(() => {
+        // For better UI feel
+        setTodoState(todo.id, !isComplete);
+      }, 500);
+    }
+  };
 
   return (
-    <Grid
-      className={`${completedClass}`}
-      container
-      item
-      zeroMinWidth
-      xs={12}
-      component={Paper}
-      alignItems="center"
-      square
-    >
-      <Grid item>
-        <Checkbox
-          checked={complete}
-          color="primary"
-          onChange={() => setTodoState(todo.id, !complete)}
-        />
-      </Grid>
-      <Grid item zeroMinWidth xs onClick={() => setNoWrap(!noWrap)}>
-        <Typography
-          id="todoText"
-          className={noWrap ? "MuiTypography-noWrap" : ""}
+    <IonItemSliding ref={rootComponent}>
+      <IonItemOptions side="end" onIonSwipe={onSwipeItem}>
+        <IonItemOption color="danger" expandable>
+          <IonIcon size="large" icon={trashOutline} />
+        </IonItemOption>
+      </IonItemOptions>
+
+      <IonItemOptions side="start" onIonSwipe={onSwipeItem}>
+        {isComplete ? (
+          <IonItemOption color="warning" expandable>
+            <IonIcon size="large" icon={arrowUndoCircleOutline} />
+          </IonItemOption>
+        ) : (
+          <IonItemOption color="success" expandable>
+            <IonIcon size="large" icon={checkmarkCircleOutline} />
+          </IonItemOption>
+        )}
+      </IonItemOptions>
+
+      <IonItem
+        color={isComplete ? "light" : undefined}
+        button
+        onClick={() => {
+          setNoWrap(!noWrap);
+        }}
+      >
+        <IonLabel
+          className={noWrap ? "ion-text-wrap" : ""}
+          style={isComplete ? { textDecoration: "line-through" } : {}}
         >
           {todo.text}
-        </Typography>
-      </Grid>
-      <Grid item className={classes.coins}>
-        <CoinX coin={todo.coins} />
-      </Grid>
-    </Grid>
+        </IonLabel>
+        <div style={{ marginLeft: "auto", padding: 4 }}>
+          <CoinX coin={todo.coins} />
+        </div>
+      </IonItem>
+    </IonItemSliding>
   );
 };

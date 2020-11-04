@@ -1,21 +1,15 @@
-import React, { useState } from "react";
-import { TodoList } from "./todo/TodoList";
+import React from "react";
 import { CompletedBackdrop } from "./common/CompletedBackdrop";
 import { TopAppBar } from "./appbars/TopAppBar";
-import { BottomAppNav } from "./appbars/BottomAppNav";
-import { Box, Grid, Container, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
-import { Redirect, Route } from "react-router-dom";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Authentication } from "./common/UserAvatar";
 import { Store } from "./store/Store";
 import { IonApp } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
 import { LoginPage } from "./pages/LoginPage";
 import { TabsContainer } from "./pages/TabsContainer";
 
@@ -47,22 +41,8 @@ firebase
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: "100vh",
-    padding: 0,
-  },
-  lastItem: {
-    marginTop: "auto",
-  },
-  signin: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
 function App() {
   const [user, , authError] = useAuthState(auth);
-  const classes = useStyles();
 
   if (authError) {
     console.log(authError);

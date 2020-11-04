@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import { Grid, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
 import { TodoListItem } from "./TodoListItem";
 import { TodoListItemAdder } from "./TodoListItemAdder";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { Skeleton } from "@material-ui/lab";
 import firebase from "firebase/app";
+import { IonItem, IonList, IonSkeletonText } from "@ionic/react";
 import "firebase/firestore";
 
 interface Props {
@@ -15,19 +14,12 @@ interface Props {
   completedTask: () => void;
 }
 
-const useStyles = makeStyles(() => ({
-  root: {
-    flexGrow: 1,
-  },
-}));
-
 export const TodoList: React.FC<Props> = ({
   user,
   firestore,
   setTotalCoins,
   completedTask,
 }) => {
-  const classes = useStyles();
   const todosCollectionRef = firestore.collection(`/users/${user.uid}/todos`);
   const selfTodosQuery = todosCollectionRef
     .orderBy("completedAt")
@@ -72,6 +64,10 @@ export const TodoList: React.FC<Props> = ({
     }
   };
 
+  const deleteTodo: SetTodoState = async (id: string) => {
+    todosCollectionRef.doc(id).delete();
+  };
+
   const addTodo: AddTodo = (text: string, coins: number) => {
     if (text === "") {
       return;
@@ -93,31 +89,42 @@ export const TodoList: React.FC<Props> = ({
   }
 
   return (
-    <>
-      <div className={classes.root}>
-        <Grid container>
-          {todos ? (
-            todos.map((todoItem) => (
-              <TodoListItem
-                key={todoItem.id}
-                todo={todoItem}
-                setTodoState={setTodoState}
-              />
-            ))
-          ) : (
-            <>
-              <Grid
-                item
-                component={Skeleton}
-                variant="rect"
-                height={42}
-                xs={12}
-              />
-            </>
-          )}
-          <TodoListItemAdder key="TodoListItemAdder_key" addTodo={addTodo} />
-        </Grid>
-      </div>
-    </>
+    <IonList>
+      {todos ? (
+        todos.map((todoItem) => (
+          <TodoListItem
+            key={todoItem.id}
+            todo={todoItem}
+            setTodoState={setTodoState}
+            deleteTodo={deleteTodo}
+          />
+        ))
+      ) : (
+        <>
+          <IonItem>
+            <IonSkeletonText
+              key="IonSkeletonText1"
+              animated
+              style={{ height: 42 }}
+            />
+          </IonItem>
+          <IonItem>
+            <IonSkeletonText
+              key="IonSkeletonText2"
+              animated
+              style={{ height: 42 }}
+            />
+          </IonItem>
+          <IonItem>
+            <IonSkeletonText
+              key="IonSkeletonText3"
+              animated
+              style={{ height: 42 }}
+            />
+          </IonItem>
+        </>
+      )}
+      <TodoListItemAdder addTodo={addTodo} />
+    </IonList>
   );
 };

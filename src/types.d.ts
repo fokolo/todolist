@@ -12,6 +12,7 @@ interface FirebaseConnection {
 }
 
 type SetTodoState = (todoId: string, toComplete: boolean) => void;
+type DeleteTodo = (todoId: string) => void;
 type UpdateTodos = (newTodos: Todo[]) => void;
 type AddTodo = (text: string, coins: number) => void;
 type SetTotalCoins = (totalCoins: number) => void;

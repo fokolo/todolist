@@ -3,7 +3,7 @@ import { cfaSignIn } from "capacitor-firebase-auth";
 import React from "react";
 
 interface Props {}
-
+// TODO: fix this
 export const LoginPage: React.FC<Props> = () => {
   const loginLogic = () => {
     cfaSignIn("google.com").subscribe(() => {
@@ -28,7 +28,7 @@ export const LoginPage: React.FC<Props> = () => {
           <img
             alt=""
             src="google.svg"
-            style={{ height: 18, width: 18, paddingRight: 8 }}
+            style={{ height: 24, width: 24, paddingRight: 8 }}
           />
         }
       >

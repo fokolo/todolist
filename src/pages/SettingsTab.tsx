@@ -1,6 +1,5 @@
 import {
   IonPage,
-  IonTab,
   IonHeader,
   IonToolbar,
   IonTitle,

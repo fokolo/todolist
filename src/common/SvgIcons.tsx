@@ -32,7 +32,7 @@ export const CoinX: React.FC<CoinXProps> = ({ coin, checked = false }) => {
         height="24"
         xmlns="http://www.w3.org/2000/svg"
         stroke="null"
-        vector-effect="non-scaling-stroke"
+        vectorEffect="non-scaling-stroke"
       >
         <path fill="none" d="M-1-1h802v602H-1z" />
         <g>
@@ -45,19 +45,19 @@ export const CoinX: React.FC<CoinXProps> = ({ coin, checked = false }) => {
             rx="7.01689"
             cy="12"
             cx="12"
-            stroke-width="2"
+            strokeWidth="2"
             fill={
               checked ? theme.palette.primary.main : theme.palette.primary.light
             }
           />
           <text
             color={checked ? "#fff" : "#000"}
-            font-weight="bold"
-            font-family="roboto, sans-serif"
-            font-size="11"
+            fontWeight="bold"
+            fontFamily="roboto, sans-serif"
+            fontSize="11"
             y="15.5"
             x="8.9"
-            stroke-width="0"
+            strokeWidth="0"
           >
             {coin}
           </text>

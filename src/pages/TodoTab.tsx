@@ -32,12 +32,14 @@ export const TodoTab: React.FC<Props> = ({ getFirebaseConnection }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <TodoList
-          user={firebaseConnection.user}
-          firestore={firebaseConnection.firestore}
-          setTotalCoins={setTotalCoins}
-          completedTask={completedTask}
-        />
+        <div style={{ padding: 8 }}>
+          <TodoList
+            user={firebaseConnection.user}
+            firestore={firebaseConnection.firestore}
+            setTotalCoins={setTotalCoins}
+            completedTask={completedTask}
+          />
+        </div>
       </IonContent>
     </IonPage>
   );

@@ -70,8 +70,6 @@ export const TodoListItemAdder: React.FC<Props> = ({ addTodo }) => {
   return (
     <Grid
       container
-      item
-      xs={12}
       component={FormPaper}
       onSubmit={handleFromSubmit}
       alignItems="center"
@@ -104,6 +102,7 @@ export const TodoListItemAdder: React.FC<Props> = ({ addTodo }) => {
           >
             {[1, 2, 5].map((coin) => (
               <Radio
+                key={`coinradio${coin}`}
                 value={`${coin}`}
                 className={classes.coin}
                 icon={<CoinX coin={coin} />}
