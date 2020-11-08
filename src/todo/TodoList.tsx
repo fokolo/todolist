@@ -4,7 +4,12 @@ import { TodoListItem } from "./TodoListItem";
 import { TodoListItemAdder } from "./TodoListItemAdder";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import firebase from "firebase/app";
-import { IonItem, IonList, IonSkeletonText } from "@ionic/react";
+import {
+  IonItem,
+  IonItemDivider,
+  IonList,
+  IonSkeletonText,
+} from "@ionic/react";
 import "firebase/firestore";
 
 interface Props {
@@ -51,20 +56,22 @@ export const TodoList: React.FC<Props> = ({
     toComplete: boolean
   ) => {
     const todoDocumentRef = todosCollectionRef.doc(id);
+    let completedAt: firebase.firestore.Timestamp | null;
     if (toComplete) {
-      todoDocumentRef.update({
-        completedAt: firebase.firestore.Timestamp.now(),
-      });
-      console.log(todos);
       completedTask();
+      completedAt = firebase.firestore.Timestamp.now();
     } else {
-      todoDocumentRef.update({
-        completedAt: null,
-      });
+      completedAt = null;
     }
+    setTimeout(() => {
+      // A bit of delay for better UI feel
+      todoDocumentRef.update({
+        completedAt: completedAt,
+      });
+    }, 500);
   };
 
-  const deleteTodo: SetTodoState = async (id: string) => {
+  const deleteTodo: DeleteTodo = async (id: string) => {
     todosCollectionRef.doc(id).delete();
   };
 
@@ -124,6 +131,7 @@ export const TodoList: React.FC<Props> = ({
           </IonItem>
         </>
       )}
+      <IonItemDivider />
       <TodoListItemAdder addTodo={addTodo} />
     </IonList>
   );

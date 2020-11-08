@@ -4,43 +4,41 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonToast,
 } from "@ionic/react";
 import React, { useState } from "react";
 import { TodoList } from "../todo/TodoList";
 
 interface Props {
   getFirebaseConnection: GetFirebaseConnection;
+  setTotalCoins: SetTotalCoins;
 }
 
-export const TodoTab: React.FC<Props> = ({ getFirebaseConnection }) => {
+export const TodoTab: React.FC<Props> = ({
+  getFirebaseConnection,
+  setTotalCoins,
+}) => {
   const firebaseConnection = getFirebaseConnection();
-  const [backdropOpen, setBackdropOpen] = useState(false);
-  const [coins, setTotalCoins] = useState(0);
+  const [toastOpen, setToastOpen] = useState(false);
 
   const completedTask = () => {
-    setBackdropOpen(true);
-    setTimeout(() => {
-      setBackdropOpen(false);
-    }, 300);
+    setToastOpen(true);
   };
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Todo</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <div style={{ padding: 8 }}>
-          <TodoList
-            user={firebaseConnection.user}
-            firestore={firebaseConnection.firestore}
-            setTotalCoins={setTotalCoins}
-            completedTask={completedTask}
-          />
-        </div>
-      </IonContent>
-    </IonPage>
+    <IonContent fullscreen>
+      <TodoList
+        user={firebaseConnection.user}
+        firestore={firebaseConnection.firestore}
+        setTotalCoins={setTotalCoins}
+        completedTask={completedTask}
+      />
+      <IonToast
+        isOpen={toastOpen}
+        onDidDismiss={() => setToastOpen(false)}
+        message="Good Job!"
+        duration={200}
+      />
+    </IonContent>
   );
 };

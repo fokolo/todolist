@@ -44,10 +44,7 @@ export const TodoListItem: React.FC<Props> = ({
     if (e.detail.side === "end") {
       deleteTodo(todo.id);
     } else if (e.detail.side === "start") {
-      setTimeout(() => {
-        // For better UI feel
-        setTodoState(todo.id, !isComplete);
-      }, 500);
+      setTodoState(todo.id, !isComplete);
     }
   };
 

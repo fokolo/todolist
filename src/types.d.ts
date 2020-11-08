@@ -9,6 +9,7 @@ interface Todo {
 interface FirebaseConnection {
   user: firebase.User;
   firestore: firebase.firestore.Firestore;
+  auth: firebase.auth.Auth;
 }
 
 type SetTodoState = (todoId: string, toComplete: boolean) => void;

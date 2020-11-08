@@ -11,20 +11,13 @@ interface Props {}
 
 export const StoreTab: React.FC<Props> = () => {
   return (
-    <IonPage>
-      <IonHeader>
+    <IonContent fullscreen>
+      <IonHeader collapse="condense">
         <IonToolbar>
-          <IonTitle>Store</IonTitle>
+          <IonTitle size="large">Store</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Store</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <h1>Hello</h1>
-      </IonContent>
-    </IonPage>
+      <h1>Hello</h1>
+    </IonContent>
   );
 };

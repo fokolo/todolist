@@ -27,7 +27,7 @@ export const LoginPage: React.FC<Props> = () => {
         startIcon={
           <img
             alt=""
-            src="google.svg"
+            src="/google.svg"
             style={{ height: 24, width: 24, paddingRight: 8 }}
           />
         }

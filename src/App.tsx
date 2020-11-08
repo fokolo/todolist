@@ -1,5 +1,4 @@
 import React from "react";
-import { CompletedBackdrop } from "./common/CompletedBackdrop";
 import { TopAppBar } from "./appbars/TopAppBar";
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -49,10 +48,11 @@ function App() {
   }
 
   const getFirebaseConnection: GetFirebaseConnection = () => {
-    if (user) {
+    if (user && auth) {
       return {
         user: user,
         firestore: firestore,
+        auth: auth,
       };
     }
     throw new Error("Error Authenticating");
@@ -76,15 +76,6 @@ function App() {
     //       setCurrentLocation={setCurrentLocation}
     //     />
     //   </Container>
-
-    //   <CompletedBackdrop
-    //     backdropOpen={backdropOpen}
-    //     setBackdropOpen={setBackdropOpen}
-    //   />
-    //   <CompletedBackdrop
-    //     backdropOpen={backdropOpen}
-    //     setBackdropOpen={setBackdropOpen}
-    //   />
     // </div>
   );
 }

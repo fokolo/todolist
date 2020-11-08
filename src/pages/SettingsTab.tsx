@@ -11,21 +11,14 @@ interface Props {}
 
 export const SettingsTab: React.FC<Props> = () => {
   return (
-    <IonPage>
-      <IonHeader>
+    <IonContent fullscreen>
+      <IonHeader collapse="condense">
         <IonToolbar>
-          <IonTitle>Settings</IonTitle>
+          <IonTitle size="large">Settings</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Settings</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <h1>Setting 1</h1>
-        <h1>Setting 2</h1>
-      </IonContent>
-    </IonPage>
+      <h1>Setting 1</h1>
+      <h1>Setting 2</h1>
+    </IonContent>
   );
 };
