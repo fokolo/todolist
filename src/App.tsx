@@ -1,12 +1,10 @@
 import React from "react";
-import { TopAppBar } from "./appbars/TopAppBar";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Authentication } from "./common/UserAvatar";
 import { Store } from "./store/Store";
 import { IonApp } from "@ionic/react";
 import { LoginPage } from "./pages/LoginPage";

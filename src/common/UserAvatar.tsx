@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { Plugins } from "@capacitor/core";
 import { cfaSignOut } from "capacitor-firebase-auth";
 import { IonAlert, IonAvatar } from "@ionic/react";
 import styled from "styled-components";
-
-const { Modals } = Plugins;
 
 interface Props {
   getFirebaseConnection: GetFirebaseConnection;
@@ -14,16 +11,24 @@ const StyledIonAvatar = styled(IonAvatar)`
   margin: 5px;
 `;
 
+const DEFAULT_AVATAR = "/avatar.svg";
+
 export const UserAvatar: React.FC<Props> = ({ getFirebaseConnection }) => {
   const [showAlert, setShowAlert] = useState(false);
   const user = getFirebaseConnection().user;
 
-  const photoURL = user.photoURL ? user.photoURL : "";
+  const photoURL = user.photoURL ? user.photoURL : DEFAULT_AVATAR;
 
   const AuthSignOut = () => {
     cfaSignOut().subscribe(() => {
       console.log("Logged Out");
     });
+  };
+
+  const loadAlternateImage = (e: any) => {
+    if (e.target.src === photoURL) {
+      e.target.src = DEFAULT_AVATAR;
+    }
   };
 
   return (
@@ -47,7 +52,12 @@ export const UserAvatar: React.FC<Props> = ({ getFirebaseConnection }) => {
         ]}
       />
       <StyledIonAvatar onClick={() => setShowAlert(true)}>
-        <img src={photoURL} />
+        <img
+          src={photoURL}
+          referrerPolicy="no-referrer"
+          alt=""
+          onError={loadAlternateImage}
+        ></img>
       </StyledIonAvatar>
     </>
   );

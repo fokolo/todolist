@@ -1,10 +1,4 @@
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-} from "@ionic/react";
+import { IonHeader, IonToolbar, IonTitle, IonContent } from "@ionic/react";
 import React from "react";
 
 interface Props {}
