@@ -96,7 +96,7 @@ export const TodoList: React.FC<Props> = ({
   }
 
   return (
-    <IonList>
+    <IonList class="ion-no-padding">
       {todos ? (
         todos.map((todoItem) => (
           <TodoListItem

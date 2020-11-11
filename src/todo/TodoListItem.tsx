@@ -20,13 +20,6 @@ interface Props {
   deleteTodo: DeleteTodo;
 }
 
-// doneTask: {
-//   backgroundColor: theme.palette.grey[400],
-//   "& #todoText": {
-//     textDecoration: "line-through",
-//   },
-// },
-
 export const TodoListItem: React.FC<Props> = ({
   todo,
   setTodoState,

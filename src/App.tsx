@@ -5,7 +5,6 @@ import "firebase/auth";
 import "firebase/analytics";
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Store } from "./store/Store";
 import { IonApp } from "@ionic/react";
 import { LoginPage } from "./pages/LoginPage";
 import { TabsContainer } from "./pages/TabsContainer";

@@ -22,11 +22,6 @@ const StyledIonItem = styled(IonItem)`
   --min-height: 0;
 `;
 
-const StyledIonButton = styled(IonButton)`
-  --padding-start: 0;
-  --padding-end: 0;
-`;
-
 const StyledIonTextarea = styled(IonTextarea)`
   --min-height: 0;
   --padding-top: 0;
@@ -58,9 +53,9 @@ export const TodoListItemAdder: React.FC<Props> = ({ addTodo }) => {
       <IonGrid>
         <IonRow class="ion-align-items-center">
           <IonCol style={{ flexGrow: 0 }}>
-            <StyledIonButton fill="clear" type="submit">
+            <IonButton class="ion-no-padding" fill="clear" type="submit">
               <IonIcon slot="icon-only" icon={addCircleOutline} />
-            </StyledIonButton>
+            </IonButton>
           </IonCol>
 
           <IonCol>

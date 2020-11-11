@@ -25,56 +25,50 @@ import { Redirect, Route } from "react-router-dom";
 import React from "react";
 import { IonReactRouter } from "@ionic/react-router";
 import { useState } from "react";
-import { CoinsIcon } from "../common/SvgIcons";
-import styled from "styled-components";
-import { UserAvatar } from "../common/UserAvatar";
+import { Toolbar } from "../common/Toolbar";
 
 interface Props {
   getFirebaseConnection: GetFirebaseConnection;
 }
 
-const StyledIonChip = styled(IonChip)`
-  padding-inline-start: 3px;
-  --background: #e33371;
-  --color: #fff;
-`;
-
-const StyledIonLabel = styled(IonLabel)`
-  margin-left: 8px;
-`;
-
 export const TabsContainer: React.FC<Props> = ({ getFirebaseConnection }) => {
   const [coins, setTotalCoins] = useState(0);
+  const firestore = getFirebaseConnection().firestore;
+  const user = getFirebaseConnection().user;
+  const todosCollectionRef = firestore.collection(`/users/${user.uid}/todos`);
+  const selfTodosQuery = todosCollectionRef
+    .orderBy("completedAt")
+    .orderBy("createdAt");
+  const [todos, , collectionError] = useCollectionData<Todo>(selfTodosQuery, {
+    idField: "id",
+  });
+
   const taskLeft = "ERROR";
 
   return (
     <IonPage>
       <IonReactRouter>
-        <IonHeader>
-          <IonToolbar color="primary">
-            <IonItem slot="start" color="primary" lines="none">
-              <UserAvatar getFirebaseConnection={getFirebaseConnection} />
-            </IonItem>
-
-            <StyledIonChip slot="end">
-              <CoinsIcon />
-              <StyledIonLabel>{coins}</StyledIonLabel>
-            </StyledIonChip>
-          </IonToolbar>
-        </IonHeader>
         <IonTabs>
           <IonRouterOutlet>
             <Route path="/tabscontainer/:tab(todo)" exact={true}>
               <TodoTab
                 getFirebaseConnection={getFirebaseConnection}
                 setTotalCoins={setTotalCoins}
+                coins={coins}
               />
             </Route>
             <Route path="/tabscontainer/:tab(store)">
-              <StoreTab />
+              <StoreTab
+                getFirebaseConnection={getFirebaseConnection}
+                setTotalCoins={setTotalCoins}
+                coins={coins}
+              />
             </Route>
             <Route path="/tabscontainer/:tab(settings)">
-              <SettingsTab />
+              <SettingsTab
+                getFirebaseConnection={getFirebaseConnection}
+                coins={coins}
+              />
             </Route>
             <Route
               path="/tabscontainer/"
